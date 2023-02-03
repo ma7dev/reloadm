@@ -1,0 +1,7 @@
+# development
+.hypothesis
+.pytest_cache
+.vscode
+__pycache__
+.secrets
+poetry.lock
