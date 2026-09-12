@@ -36,17 +36,16 @@ pricing = reload(shop.pricing)
 
 ## Installation
 
-The repository is private and is not published automatically. Install it from
-a local checkout:
+Install the latest version directly from GitHub:
 
 ```bash
-python -m pip install /path/to/reloadm
+python -m pip install "reloadm @ git+https://github.com/ma7dev/reloadm.git"
 ```
 
 Install the optional IPython integration with:
 
 ```bash
-python -m pip install "/path/to/reloadm[ipython]"
+python -m pip install "reloadm[ipython] @ git+https://github.com/ma7dev/reloadm.git"
 ```
 
 `reloadm` supports Python 3.10 through 3.14.
