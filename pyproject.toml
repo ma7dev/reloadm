@@ -1,13 +1,13 @@
 [build-system]
-requires = ["hatchling==1.27.0"]
+requires = ["hatchling==1.32.0"]
 build-backend = "hatchling.build"
 
 [project]
 name = "reloadm"
-version = "0.2.0"
+version = "0.3.0"
 description = "Reload a Python module hierarchy during notebook and REPL development"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [{ name = "Mazen Alotaibi" }]
 keywords = ["development", "importlib", "jupyter", "reload", "repl"]
@@ -17,11 +17,11 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = []
@@ -32,13 +32,18 @@ Issues = "https://github.com/ma7dev/reloadm/issues"
 Repository = "https://github.com/ma7dev/reloadm"
 
 [project.optional-dependencies]
+ipython = ["ipython>=8.18"]
 dev = [
-  "build==1.3.0",
-  "mypy==1.18.1",
-  "pytest==8.4.2",
-  "pytest-cov==6.3.0",
-  "ruff==0.13.0",
-  "twine==6.2.0",
+  "build==1.6.1",
+  "ipykernel>=6.29",
+  "mypy==2.3.1",
+  "nbclient>=0.10",
+  "nbformat>=5.10",
+  "pytest==9.1.1",
+  "pytest-cov==7.1.0",
+  "ruff==0.16.7",
+  "twine==7.0.0",
+  "ipython>=8.18",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -49,13 +54,13 @@ addopts = "--strict-config --strict-markers --cov=reloadm --cov-report=term-miss
 testpaths = ["tests"]
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 line-length = 88
 
 [tool.ruff.lint]
 select = ["B", "E", "F", "I", "UP"]
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.10"
 strict = true
 files = ["reloadm"]

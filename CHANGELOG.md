@@ -6,6 +6,23 @@ All notable changes are documented here. The format follows
 
 ## Unreleased
 
+## 0.3.0 - 2026-09-12
+
+### Added
+
+- Side-effect-free reload planning with `plan` and `ReloadPlan`.
+- Deduplicated batch execution with `reload_many` and `ReloadResult`.
+- Optional `%reloadm` IPython magic.
+- Real-package integration tests and an executable example notebook.
+- Python 3.14 support.
+
+### Changed
+
+- Parent cascading is now opt-in.
+- Cascades reload children before parents so package re-exports are refreshed.
+- Runtime version reporting now comes from installed package metadata.
+- Minimum supported Python is now 3.10; Python 3.9 is end-of-life.
+
 ## 0.2.0 - 2026-09-12
 
 ### Added

@@ -1,17 +1,13 @@
 # Notebook and REPL workflow
 
-## A focused edit-run loop
+## Focused reload
 
-1. Import your project module normally.
-2. Edit the module's source file.
-3. Call `reloadm.reload(module)`.
-4. Call code through the returned module.
+Import a module, edit its source, then explicitly reload it:
 
 ```python
 import my_project.scoring
 from reloadm import reload
 
-# Edit my_project/scoring.py, then:
 scoring = reload(my_project.scoring)
 scoring.score(records)
 ```
@@ -22,27 +18,70 @@ Calling through the returned module avoids a common trap:
 from my_project.scoring import score
 
 reload(score)
-score(records)  # This name still points to the old function.
+score(records)  # Still the old local function object.
 
-from my_project.scoring import score  # Rebind it explicitly.
+from my_project.scoring import score  # Rebind explicitly.
+
 score(records)
 ```
 
-## Choosing parent behavior
+## Repair package re-exports
 
-Keep `include_parents=True` when parent `__init__.py` files re-export values or
-perform registration. Use `False` when parent imports are expensive or have
-side effects and only the leaf module changed.
+If `my_project/__init__.py` contains `from .scoring import score`, opt into a
+child-first parent cascade:
 
-## Handling partial failure
+```python
+reload("my_project.scoring", include_parents=True)
+```
+
+The order is `my_project.scoring`, then `my_project`. The parent initializer
+runs after the child and therefore binds the new `score` object.
+
+## Preview before executing
+
+Package initializers may connect to services, register plugins, or mutate
+global state. Preview a cascade first:
+
+```python
+from reloadm import plan
+
+for module_name in plan("my_project.scoring", include_parents=True).modules:
+    print(module_name)
+```
+
+## Batch related edits
+
+```python
+from reloadm import reload_many
+
+result = reload_many(
+    ["my_project.scoring", "my_project.validation"],
+    include_parents=True,
+)
+```
+
+Shared parents reload once, after both children.
+
+## Use the IPython magic
+
+```python
+%load_ext reloadm.ipython
+%reloadm my_project.scoring
+%reloadm --parents my_project.scoring my_project.validation
+```
+
+## Handle partial failure
 
 ```python
 from reloadm import ReloadError, reload
 
 try:
-    reload("my_project.scoring")
+    reload("my_project.scoring", include_parents=True)
 except ReloadError as error:
     print("failed:", error.module_name)
     print("already reloaded:", error.reloaded)
     raise
 ```
+
+Reloading cannot roll back module side effects or restore earlier object state.
+Restart the interpreter when a clean process matters.
