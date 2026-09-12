@@ -1,7 +1,13 @@
 # development
+.coverage
+.mypy_cache
+.ruff_cache
+.venv
 .hypothesis
 .pytest_cache
 .vscode
 __pycache__
 .secrets
+dist
+*.egg-info
 poetry.lock
